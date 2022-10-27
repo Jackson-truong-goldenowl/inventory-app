@@ -31,94 +31,33 @@ provider:
   iamRoleStatements:
     - Effect: Allow
       Action:
+        - dynamodb:DescribeTable
         - dynamodb:Query
         - dynamodb:Scan
         - dynamodb:GetItem
         - dynamodb:PutItem
         - dynamodb:PostItem
+        - dynamodb:DeleteItem
       Resource: "*"
 
 resources:
   Resources:
     inventoryDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
+      Type: AWS::DynamoDB::Table
       DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
-          -
-            AttributeName: "id"
-            AttributeType: "S"   
+          - AttributeName: "id"
+            AttributeType: "S"
         KeySchema:
-          -
-            AttributeName: "id"
+          - AttributeName: "id"
             KeyType: "HASH"
         ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
         StreamSpecification:
           StreamViewType: "NEW_AND_OLD_IMAGES"
         TableName: ${self:provider.environment.INVENTORY_TABLE}
-      Properties:
-        AttributeDefinitions:
-          -
-            AttributeName: "name"
-            AttributeType: "S"   
-        KeySchema:
-          -
-            AttributeName: "name"
-            KeyType: "HASH"
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-        StreamSpecification:
-          StreamViewType: "NEW_AND_OLD_IMAGES"
-        TableName: ${self:provider.environment.INVENTORY_TABLE}
-      Properties:
-        AttributeDefinitions:
-          -
-            AttributeName: "category"
-            AttributeType: "S"   
-        KeySchema:
-          -
-            AttributeName: "category"
-            KeyType: "HASH"
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-        StreamSpecification:
-          StreamViewType: "NEW_AND_OLD_IMAGES"
-        TableName: ${self:provider.environment.INVENTORY_TABLE}
-      Properties:
-        AttributeDefinitions:
-          -
-            AttributeName: "current_stock"
-            AttributeType: "N"   
-        KeySchema:
-          -
-            AttributeName: "current_stock"
-            KeyType: "HASH"
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-        StreamSpecification:
-          StreamViewType: "NEW_AND_OLD_IMAGES"
-        TableName: ${self:provider.environment.INVENTORY_TABLE}
-      Properties:
-        AttributeDefinitions:
-          -
-            AttributeName: "price"
-            AttributeType: "N"   
-        KeySchema:
-          -
-            AttributeName: "price"
-            KeyType: "HASH"
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-        StreamSpecification:
-          StreamViewType: "NEW_AND_OLD_IMAGES"
-        TableName: ${self:provider.environment.INVENTORY_TABLE}
-
 
 # you can overwrite defaults here
 

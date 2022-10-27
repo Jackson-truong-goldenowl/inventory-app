@@ -25,7 +25,8 @@ provider:
   runtime: nodejs16.x
   stage: dev
   region: ap-southeast-1
-  lambdaHashingVersion: 20201221
+  
+
 
 # you can overwrite defaults here
 
@@ -61,13 +62,12 @@ provider:
 #    - include-me-dir/**
 
 functions:
-  helloo:
-    handler: handler.hello
+  helloLambda:
+    handler: handler.index
     events:
      - httpApi:
-         path: /hello
+         path: /index
          method: get 
-         memorySize: 128
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

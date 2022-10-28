@@ -57,8 +57,6 @@ async function discount(discountNum, id) {
         console.log(error);
         return error;
     }
-   
-       
 }
 
 

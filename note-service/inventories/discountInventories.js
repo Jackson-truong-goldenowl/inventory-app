@@ -6,12 +6,14 @@ AWS.config.setPromisesDependency(require('bluebird'));
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 
-module.exports.discountInventories = async (discountNum, category) => {
+module.exports.discountInventories = async (event) => {
+    const data = JSON.parse(event.body);
+
     try {
         if(!!category) {
-            await discountWithCategory(discountNum, category);
+            await discountWithCategory(data.discountNum, data.category);
         } else { 
-            await discountAll(discountNum)
+            await discountAll(data.discountNum)
         }
 
         return {

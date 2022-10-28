@@ -12,7 +12,7 @@ module.exports.discountInventories = async (event) => {
         const result = await discountItems(data.discountNum, data.category, dataInventories);
         return {
             statusCode: 201,
-            body: result,
+            body: 'discount success',
         }
     }
     catch (err) {
@@ -24,12 +24,12 @@ async function fetchData() {
         TableName: process.env.INVENTORY_TABLE,
       };
     const response = await dynamoDb.scan(params).promise();
-    return response;
+    return  response;
 } 
 async function discountItems(discountNum, category, dataInventories) {
 //    const response = await discount(discountNum, '1')
     dataInventories?.Items.forEach(async(item)=>{
-        const resultDiscount = discountNum
+        const resultDiscount = (item.price * ( 100 - discountNum))/100
         if(category && category === item.category){
             await discount(resultDiscount, item.id)
         } 
@@ -48,8 +48,7 @@ async function discount(discountNum, id) {
         UpdateExpression: "SET price =  :price",
         ExpressionAttributeValues: {
             ":price": discountNum
-        },
-        ReturnValues: "UPDATED_NEW"
+        }
     }
     try {
         const result = dynamoDb.update(params).promise();
@@ -57,7 +56,9 @@ async function discount(discountNum, id) {
     } catch (error) {
         console.log(error);
         return error;
-    }  
+    }
+   
+       
 }
 
 

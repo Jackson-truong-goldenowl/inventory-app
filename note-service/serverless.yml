@@ -38,6 +38,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:PostItem
         - dynamodb:DeleteItem
+        - dynamodb:UpdateItem
       Resource: "*"
 
 resources:
@@ -51,7 +52,7 @@ resources:
             AttributeType: "S"
         KeySchema:
           - AttributeName: "id"
-            KeyType: "HASH"
+            KeyType: "HASH" 
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
@@ -117,6 +118,12 @@ functions:
       - httpApi:
           path: /invetory
           method: post
+  getInventoy:
+    handler: inventories/getInventory.getInventory
+    events:
+      - httpApi:
+          path: /inventory/{id}
+          method: get
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

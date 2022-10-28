@@ -18,14 +18,13 @@ module.exports.saveInventory = async (event, context, callback) => {
           }
       }
   }
-  dynamoDb.put(params, (err, result) => {
-      if (err) {
-          console.log(err);
-      }
-      const response = {
-          statusCode: 200,
-          body: JSON.stringify(result.Item),
-      };
-      callback(null, response);
-  });
+  try {
+    await dynamoDb.put(params).promise();
+    return {
+        message: 'Create success',
+        data: params.Item
+    } 
+  } catch (error) {
+    console.log(error);
+  }
 }

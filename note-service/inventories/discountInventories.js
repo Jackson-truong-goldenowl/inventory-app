@@ -1,57 +1,63 @@
 'use strict';
 	
-const uuid = require('uuid');
 const AWS = require('aws-sdk'); 
-AWS.config.setPromisesDependency(require('bluebird'));
+
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 
 module.exports.discountInventories = async (event) => {
     const data = JSON.parse(event.body);
-
     try {
-        if(!!category) {
-            await discountWithCategory(data.discountNum, data.category);
-        } else { 
-            await discountAll(data.discountNum)
-        }
-
+        const dataInventories = await fetchData();
+        const result = await discountItems(data.discountNum, data.category, dataInventories);
         return {
             statusCode: 201,
-            body: '',
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            }
+            body: result,
         }
     }
     catch (err) {
         console.error(err);
     }
 };
+async function fetchData() {
+    const params = {
+        TableName: process.env.INVENTORY_TABLE,
+      };
+    const response = await dynamoDb.scan(params).promise();
+    return response;
+} 
+async function discountItems(discountNum, category, dataInventories) {
+//    const response = await discount(discountNum, '1')
+    dataInventories?.Items.forEach(async(item)=>{
+        const resultDiscount = discountNum
+        if(category && category === item.category){
+            await discount(resultDiscount, item.id)
+        } 
+        if (!category) {
+            await discount(resultDiscount, item.id)
+        }
+    });
+}
 
-function discountWithCategory(discountNum, category) {
+async function discount(discountNum, id) {
     const params = {
         TableName: process.env.INVENTORY_TABLE,
         Key: {
-        "category": category
-    },
-        UpdateExpression: "SET price = :price", //status is a reserved ATTRIBUTE
+            "id": id,
+        },
+        UpdateExpression: "SET price =  :price",
         ExpressionAttributeValues: {
             ":price": discountNum
-        }
+        },
+        ReturnValues: "UPDATED_NEW"
     }
-    return dynamoDb.put(params).promise();
-}
-
-function discountAll(discountNum) {
-    const params = {
-        TableName: process.env.INVENTORY_TABLE,
-        UpdateExpression: "SET price = price * :price", //status is a reserved ATTRIBUTE
-        ExpressionAttributeValues: {
-            ":price": discountNum
-        }
-    }
-    return dynamoDb.put(params).promise();
+    try {
+        const result = dynamoDb.update(params).promise();
+        return result;
+    } catch (error) {
+        console.log(error);
+        return error;
+    }  
 }
 
 

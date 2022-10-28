@@ -99,6 +99,18 @@ functions:
      - httpApi:
          path: /index
          method: get 
+  getListInventories: 
+    handler: inventories/getListInventories.getListInventory
+    events:
+     - httpApi:
+         path: /inventory
+         method: get
+  discountInventories:
+    handler: inventories/discountInventories.discountInventories
+    events: 
+      - httpApi:
+         path: /inventory-discount
+         method: put
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

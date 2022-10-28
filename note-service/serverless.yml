@@ -111,6 +111,12 @@ functions:
       - httpApi:
          path: /inventory-discount
          method: put
+  create:
+    handler: inventories/create.saveInventory
+    events:
+      - httpApi:
+          path: /invetory
+          method: post
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

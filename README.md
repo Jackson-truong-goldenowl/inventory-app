@@ -52,7 +52,7 @@ yarn
 ```bash
 sls deploy
 ```
-### Example
+# Example
 ## API Reference
 
 #### Get all items inventories

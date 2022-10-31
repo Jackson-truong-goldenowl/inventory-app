@@ -5,15 +5,15 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 
 module.exports.getListInventory = async (event) => {
-    // const { lastItem } = event.pathParameters;
+    const paramRe = event.queryStringParameters;
     try {
         const params = {
           TableName: process.env.INVENTORY_TABLE,
           Limit: 10,
         };
-        // if (lastItem) {
-        //   params.ExclusiveStartKey = { id: lastItem};
-        // }
+        if (paramRe && paramRe?.lastItem) {
+          params.ExclusiveStartKey = { id: paramRe.lastItem};
+        }
         const response = await dynamoDb.scan(params).promise();
         return {
            items: response.Items,

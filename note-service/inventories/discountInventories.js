@@ -9,7 +9,7 @@ module.exports.discountInventories = async (event) => {
     const data = JSON.parse(event.body);
     try {
         const dataInventories = await fetchData();
-        const result = await discountItems(data.discountNum, data.category, dataInventories);
+        await discountItems(data.discountNum, data.category, dataInventories);
         return {
             statusCode: 201,
             body: 'discount success',
@@ -27,16 +27,17 @@ async function fetchData() {
     return  response;
 } 
 async function discountItems(discountNum, category, dataInventories) {
-//    const response = await discount(discountNum, '1')
+    const updates = [];
     dataInventories?.Items.forEach(async(item)=>{
         const resultDiscount = (item.price * ( 100 - discountNum))/100
-        if(category && category === item.category){
-            await discount(resultDiscount, item.id)
+        if(category && category === item.category && item.curren_stock > 0){
+            updates.push(discount(resultDiscount, item.id))
         } 
-        if (!category) {
-            await discount(resultDiscount, item.id)
+        if (!category && item.curren_stock > 0) {
+            updates.push(discount(resultDiscount, item.id))
         }
     });
+    await Promise.all(updates);
 }
 
 async function discount(discountNum, id) {

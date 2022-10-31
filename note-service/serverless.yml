@@ -104,7 +104,7 @@ functions:
     handler: inventories/getListInventories.getListInventory
     events:
      - httpApi:
-         path: /inventory
+         path: /inventories
          method: get
   discountInventories:
     handler: inventories/discountInventories.discountInventories

@@ -83,10 +83,13 @@ sls deploy
   PUT - https://s67thn3g77.execute-api.ap-southeast-1.amazonaws.com/inventory-discount
 ```
 
-| Parameter | Type     | 
-| :-------- | :------- | 
-| `discountNum`      | `number` |
-| `category`         | `string` |
+ - Body:
+```json
+{
+  "discount": 1111111111111,
+  "category": "Category1"
+}
+```
 
 #### Ceate item inventory
 

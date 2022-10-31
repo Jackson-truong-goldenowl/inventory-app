@@ -116,7 +116,7 @@ functions:
     handler: inventories/create.saveInventory
     events:
       - httpApi:
-          path: /invetory
+          path: /inventory
           method: post
   getInventoy:
     handler: inventories/getInventory.getInventory

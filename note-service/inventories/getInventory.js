@@ -5,7 +5,6 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 
 module.exports.getInventory = async (event) => {
-    console.log('get id :',event.pathParameters.id);
     try {
         const params = {
           TableName: process.env.INVENTORY_TABLE,

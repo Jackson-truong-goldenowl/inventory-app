@@ -93,15 +93,19 @@ sls deploy
 ```
   POST - https://s67thn3g77.execute-api.ap-southeast-1.amazonaws.com/invetory
 ```
-
-| Parameter       | Type     | Description                |
-| :-------------  | :------- | :---------                 |
-| `id`            | `string` |                            | 
-| `name`          | `string` |                            | 
-| `category`      | `string` |                            |
-| `curren_stock`  | `string` |                            |
-| `price`         | `string` |                            |
-| `supplier`      | `string` | {name: string , description: string} |
+ - Body:
+``` json
+{
+  "name": "Inventory",
+  "category": "Category1",
+  "price": 11000,
+  "current_stock": "21",
+  "supplier": {
+      "name": "Raymond",
+      "description": "Raymod provider"
+  }
+}
+```
 
 
 ## Licence

@@ -20,13 +20,6 @@ Thanks to [`serverless-typescript`](https://github.com/prisma-labs/serverless-pl
 
 ## Usage
 
-To create new serverless AWS TypeScript project using this template run:
-
-```bash
-serverless create \
---template-url https://github.com/ttarnowski/serverless-aws-nodejs-typescript-v2/tree/main \
---path myServiceName
-```
 
 where `myServiceName` should be replaced with the name of your choice.
 

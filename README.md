@@ -1,8 +1,12 @@
-# inventory-app
-# node version 16
-# deploy
+# Inventory App
+# Node 
+```
+- version 16
+```
+# Deploy
+```
 - run sls deploy 
-
+```
 ## API Reference
 
 #### Get all items inventories
